@@ -1,4 +1,4 @@
-WP Package Parser [![GitHub issues](https://img.shields.io/github/issues/renventura/wp-package-parser.svg)](https://github.com/renventura/wp-package-parser/issues) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/renventura/wp-package-parser/master/LICENSE) 
+WP Package Parser ![Develop branch](https://github.com/renventura/wp-package-parser/actions/workflows/ci.yml/badge.svg?branch=develop) [![GitHub issues](https://img.shields.io/github/issues/renventura/wp-package-parser.svg)](https://github.com/renventura/wp-package-parser/issues) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/renventura/wp-package-parser/master/LICENSE) 
 ========================
 
 A PHP library for parsing WordPress plugin and theme metadata. Point it at a ZIP package and it will:

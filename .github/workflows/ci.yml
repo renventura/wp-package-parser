@@ -49,10 +49,6 @@ jobs:
           extensions: mbstring, mysqli
           coverage: none
 
-      - name: Remove unneeded Composer dependencies
-        run: |
-          composer remove --dev --no-progress --no-update
-
       - uses: ramsey/composer-install@v2
         with:
           dependency-versions: highest

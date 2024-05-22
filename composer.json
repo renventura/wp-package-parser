@@ -1,19 +1,42 @@
 {
-  "name": "tutv95/wp-package-parser",
-  "authors": [
-    {
-      "name": "Max",
-      "email": "tutv95@gmail.com"
+    "name": "renventura/wp-package-parser",
+    "authors": [
+        {
+            "name": "Ren Ventura",
+            "email": "rv@renventura.com"
+        }
+    ],
+    "license": "MIT",
+    "require": {
+        "php": "^8.0",
+        "erusev/parsedown": "^1.7"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "RenVentura\\WPPackageParser\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "RenVentura\\WPPackageParser\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": [
+            "@test:all"
+        ],
+        "test:all": [
+            "@test:unit"
+        ],
+        "test:unit": [
+            "./vendor/bin/phpunit --testdox --color=always --display-deprecations --display-errors --display-notices --display-warnings"
+        ]
+    },
+    "scripts-descriptions": {
+        "test:all": "Run all automated tests.",
+        "test:unit": "Run all of the PHPUnit test suites."
     }
-  ],
-  "license": "MIT",
-  "require": {
-    "php": ">=5.4"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "^6.2"
-  },
-  "autoload": {
-    "files": ["wp-package-parser.php"]
-  }
 }

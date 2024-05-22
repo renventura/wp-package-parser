@@ -1,64 +1,51 @@
 <?php
-
-include_once 'libs/Parsedown.php';
-include_once 'class-max-wp-package-parser.php';
-include_once 'class-max-wp-plugin-parser.php';
-include_once 'class-max-wp-theme-parser.php';
+namespace RenVentura\WPPackageParser;
+use RenVentura\WPPackageParser\Parsers;
+use ZipArchive;
 
 /**
- * Class Max_WP_Package
- *
- * @since 1.0.0
+ * Class for interacting with WordPress packages (plugins and themes)
  */
-class Max_WP_Package {
+class WPPackage {
+
 	/**
 	 * Metadata.
-	 *
-	 * @since 1.0.0
 	 *
 	 * @var array
 	 */
 	protected $metadata = array();
 
 	/**
-	 * Package file.
-	 *
-	 * @since 1.0.0
+	 * Package file path.
 	 *
 	 * @var string
 	 */
-	private $package_file;
+	private $package_path;
 
 	/**
 	 * Package type.
-	 *
-	 * @since 1.0.0
 	 *
 	 * @var string
 	 */
 	private $type = null;
 
 	/**
-	 * Max_WP_Package constructor.
+	 * Construct a package instance and parse the provided zip file.
 	 *
-	 * @since 1.0.0
-	 *
-	 * @param $package_file
+	 * @param $package_path
 	 */
-	public function __construct( $package_file ) {
-		$this->package_file = $package_file;
+	public function __construct( string $package_path ) {
+		$this->package_path = $package_path;
 		$this->parse();
 	}
 
 	/**
 	 * Get slug.
 	 *
-	 * @since 1.0.0
-	 *
 	 * @return string|null
 	 */
-	public function get_slug() {
-		$metadata = $this->get_metadata();
+	public function getSlug() : string|null {
+		$metadata = $this->getMetaData();
 
 		if ( ! isset( $metadata['slug'] ) ) {
 			return null;
@@ -70,40 +57,33 @@ class Max_WP_Package {
 	/**
 	 * Get metadata.
 	 *
-	 * @since 1.0.0
-	 *
 	 * @return array
 	 */
-	public function get_metadata() {
-		$metadata = $this->metadata;
-
-		return $metadata;
+	public function getMetaData() : array {
+		return $this->metadata;
 	}
 
 	/**
 	 * Parse package.
 	 *
-	 * @since 1.0.0
-	 *
-	 *
 	 * @return bool
 	 */
-	private function parse() {
-		if ( ! $this->validate_file() ) {
+	private function parse() : bool {
+		if ( ! $this->validateFile() ) {
 			return false;
 		}
 
-		$plugin_parser = new Max_WP_Plugin_Parser();
-		$theme_parser  = new  Max_WP_Theme_Parser();
+		$plugin_parser = new Parsers\PluginParser();
+		$theme_parser  = new Parsers\ThemeParser();
 
 		$slug  = null;
-		$zip   = $this->open_package();
+		$zip   = $this->openPackage();
 		$files = $zip->numFiles;
 
 		for ( $index = 0; $index < $files; $index ++ ) {
 			$info = $zip->statIndex( $index );
 
-			$file = $this->explore_file( $info['name'] );
+			$file = $this->exploreFile( $info['name'] );
 			if ( ! $file ) {
 				continue;
 			}
@@ -113,7 +93,7 @@ class Max_WP_Package {
 			$content   = $zip->getFromIndex( $index );
 
 			if ( $file['extension'] === 'php' ) {
-				$headers = $plugin_parser->parse_plugin_file( $content );
+				$headers = $plugin_parser->parsePlugin( $content );
 
 				if ( $headers ) {
 					//Add plugin file
@@ -128,7 +108,7 @@ class Max_WP_Package {
 			}
 
 			if ( $file_name === 'readme.txt' ) {
-				$data = $plugin_parser->parser_readme( $content );
+				$data = $plugin_parser->parseReadme( $content );
 				unset( $data['name'] );
 				$data['readme'] = true;
 				$this->metadata = array_merge( $data, $this->metadata );
@@ -137,7 +117,7 @@ class Max_WP_Package {
 			}
 
 			if ( $file_name === 'style.css' ) {
-				$headers = $theme_parser->parse_style( $content );
+				$headers = $theme_parser->parseStyle( $content );
 				if ( $headers ) {
 					$this->type     = 'theme';
 					$this->metadata = $headers;
@@ -159,24 +139,20 @@ class Max_WP_Package {
 	/**
 	 * Get package type.
 	 *
-	 * @since 1.0.0
-	 *
 	 * @return string|null
 	 */
-	public function get_type() {
+	public function getType() : string|null {
 		return $this->type;
 	}
 
 	/**
 	 * Explore file.
 	 *
-	 * @since 1.0.0
-	 *
-	 * @param $file_name
+	 * @param string $file_name File name.
 	 *
 	 * @return bool|array
 	 */
-	private function explore_file( $file_name ) {
+	private function exploreFile( string $file_name ) : bool|array {
 		$data      = pathinfo( $file_name );
 		$dirname   = $data['dirname'];
 		$depth     = substr_count( $dirname, '/' );
@@ -197,12 +173,10 @@ class Max_WP_Package {
 	/**
 	 * Validate package file.
 	 *
-	 * @since 1.0.0
-	 *
 	 * @return bool
 	 */
-	private function validate_file() {
-		$file = $this->package_file;
+	private function validateFile() {
+		$file = $this->package_path;
 
 		if ( ! file_exists( $file ) || ! is_readable( $file ) ) {
 			return false;
@@ -218,12 +192,10 @@ class Max_WP_Package {
 	/**
 	 * Open package file.
 	 *
-	 * @since 1.0.0
-	 *
 	 * @return false|ZipArchive
 	 */
-	private function open_package() {
-		$file = $this->package_file;
+	private function openPackage() : bool|ZipArchive {
+		$file = $this->package_path;
 
 		$zip = new ZipArchive();
 		if ( $zip->open( $file ) !== true ) {

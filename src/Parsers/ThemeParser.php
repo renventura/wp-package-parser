@@ -1,15 +1,13 @@
 <?php
+namespace RenVentura\WPPackageParser\Parsers;
 
 /**
- * Class Max_WP_Theme
- *
- * @since 1.0.0
+ * Class for parsing a WordPress theme.
  */
-class Max_WP_Theme_Parser extends Max_WP_Package_Parser {
+class ThemeParser extends Parser {
+
 	/**
 	 * Header map.
-	 *
-	 * @since 1.0.0
 	 *
 	 * @var array
 	 */
@@ -28,18 +26,18 @@ class Max_WP_Theme_Parser extends Max_WP_Package_Parser {
 	);
 
 	/**
-	 * Parse file style.css
+	 * Parse style.css file.
 	 *
-	 * @param $fileContents
+	 * @param string $fileContents Contents of style.css file.
 	 *
-	 * @return null
+	 * @return array|null
 	 */
-	public function parse_style( $fileContents ) {
-		$headers = $this->parseHeaders( $fileContents );
+	public function parseStyle( string $fileContents ) : array|null {
 
+        $headers = $this->parseHeaders( $fileContents );
 		$headers['tags'] = array_filter( array_map( 'trim', explode( ',', strip_tags( $headers['tags'] ) ) ) );
 
-		//If it doesn't have a name, it's probably not a valid theme.
+		// If it doesn't have a name, it's probably not a valid theme.
 		if ( empty( $headers['name'] ) ) {
 			return null;
 		}

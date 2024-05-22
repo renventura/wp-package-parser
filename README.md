@@ -1,4 +1,4 @@
-WP Package Parser [![Travis](https://img.shields.io/travis/tutv/wp-package-parser.svg)](https://travis-ci.org/tutv/wp-package-parser) [![GitHub issues](https://img.shields.io/github/issues/tutv/wp-package-parser.svg)](https://github.com/tutv/wp-package-parser/issues) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/tutv/wp-package-parser/master/LICENSE) 
+WP Package Parser [![GitHub issues](https://img.shields.io/github/issues/renventura/wp-package-parser.svg)](https://github.com/renventura/wp-package-parser/issues) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/renventura/wp-package-parser/master/LICENSE) 
 ========================
 
 A PHP library for parsing WordPress plugin and theme metadata. Point it at a ZIP package and it will:
@@ -10,19 +10,16 @@ A PHP library for parsing WordPress plugin and theme metadata. Point it at a ZIP
 
 Installation
 -----------
-
-Include `wp-package-parser.php` or [install the composer package](https://packagist.org/packages/tutv95/wp-package-parser).
-
+It is recommended to [install the composer package](https://packagist.org/packages/renventura/wp-package-parser).
 
 Basic usage
 -----------
-
 ### Extract plugin metadata:
 
 ```php
-require 'wp-package-parser/wp-package-parser.php';
-$package = new Max_WP_Package('/var/path/plugin.zip');
-print_r($package->get_metadata());
+require 'vendor/autoload.php';
+$package = new RenVentura\WPPackageParser\WPPackage('/var/path/plugin.zip');
+print_r($package->getMetaData());
 ```
 
 Sample output:
@@ -70,9 +67,9 @@ This is not just a plugin, it symbolizes the hope and enthusiasm of an entire ge
 ### Extract theme metadata:
 
 ```php
-require 'wp-package-parser/wp-package-parser.php';
-$package = new Max_WP_Package('/var/path/theme.zip');
-print_r($package->get_metadata());
+require 'vendor/autoload.php';
+$package = new RenVentura\WPPackageParser\WPPackage('/var/path/theme.zip');
+print_r($package->getMetaData());
 ```
 
 Sample output:
@@ -118,8 +115,15 @@ Array
 
 Requirements
 ------------
-PHP 5.4. 
+PHP >= 8.0. 
 
 Credits
 -------
-Partially based on plugin header parsing code from the WordPress core.
+This was forked from [tutv/wp-package-parser](https://github.com/tutv/wp-package-parser). The original project was not updated for many years. I forked it, and modernized it for compatibility with:
+* PHP8+
+* PHPUnit v11
+* Improved coding standards
+* Composer autoloading
+* GitHub Actions for automated CI testing
+
+All original licensing remains the same. Many thanks to @tutv for his contributions.

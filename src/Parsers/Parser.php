@@ -1,16 +1,14 @@
 <?php
-
+namespace RenVentura\WPPackageParser\Parsers;
+use Parsedown;
 
 /**
- * Class Max_WP_Package_Parser.
- *
- * @since 1.0.0
+ * Parser abstraction.
  */
-abstract class Max_WP_Package_Parser {
+abstract class Parser {
+
 	/**
 	 * Header map.
-	 *
-	 * @since 1.0.0
 	 *
 	 * @var array
 	 */
@@ -27,18 +25,18 @@ abstract class Max_WP_Package_Parser {
 	 *
 	 * @return array
 	 */
-	protected function parseHeaders( $fileContents ) {
+	protected function parseHeaders( string $fileContents ) : array {
 		$headers   = array();
 		$headerMap = $this->headerMap;
 
-		//Support systems that use CR as a line ending.
+		// Support systems that use CR as a line ending.
 		$fileContents = str_replace( "\r", "\n", $fileContents );
 
 		foreach ( $headerMap as $field => $prettyName ) {
 			$found = preg_match( '/^[ \t\/*#@]*' . preg_quote( $prettyName, '/' ) . ':(.*)$/mi', $fileContents, $matches );
 			if ( ( $found > 0 ) && ! empty( $matches[1] ) ) {
-				//Strip comment markers and closing PHP tags.
-				$value             = trim( preg_replace( "/\s*(?:\*\/|\?>).*/", '', $matches[1] ) );
+				// Strip comment markers and closing PHP tags.
+				$value = trim( preg_replace( "/\s*(?:\*\/|\?>).*/", '', $matches[1] ) );
 				$headers[ $field ] = $value;
 			} else {
 				$headers[ $field ] = '';
@@ -54,17 +52,14 @@ abstract class Max_WP_Package_Parser {
 	 *
 	 * Tries (in vain) to emulate the transformation that WordPress.org applies to readme.txt files.
 	 *
-	 * @since 1.0.0
-	 *
 	 * @param string $text
 	 *
 	 * @return string
 	 */
-	protected function applyMarkdown( $text ) {
-		//The WP standard for readme files uses some custom markup, like "= H4 headers ="
+	protected function applyMarkdown( string $text ) : string {
+		// The WP standard for readme files uses some custom markup, like "= H4 headers ="
 		$text     = preg_replace( '@^\s*=\s*(.+?)\s*=\s*$@m', "<h4>$1</h4>\n", $text );
 		$markdown = new Parsedown();
-
 		return $markdown->parse( $text );
 	}
 }

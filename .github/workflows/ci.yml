@@ -49,9 +49,6 @@ jobs:
           extensions: mbstring, mysqli
           coverage: none
 
-      - name: Configure Composer
-        run: composer config github-oauth.github.com ${{ secrets.STELLARWP_ACCESS_TOKEN }}
-
       - name: Remove unneeded Composer dependencies
         run: |
           composer remove --dev --no-progress --no-update

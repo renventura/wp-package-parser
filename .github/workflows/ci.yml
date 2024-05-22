@@ -27,7 +27,7 @@ jobs:
       fail-fast: false
       matrix:
         # Run on all versions of PHP supported by WordPress.
-        php-versions: ['7.4', '8.0', '8.1', '8.2', '8.3']
+        php-versions: ['8.0', '8.1', '8.2', '8.3']
         wp-versions: ['latest']
 
     services:

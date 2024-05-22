@@ -121,7 +121,7 @@ Credits
 -------
 This was forked from [tutv/wp-package-parser](https://github.com/tutv/wp-package-parser). The original project was not updated for many years. I forked it, and modernized it for compatibility with:
 * PHP8+
-* PHPUnit v10.5
+* PHPUnit v9.6
 * Improved coding standards
 * Composer autoloading
 * GitHub Actions for automated CI testing

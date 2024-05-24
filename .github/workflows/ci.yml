@@ -1,4 +1,4 @@
-# This is the main Continuous Integration (CI) pipeline for the the stellarwp/plugin-framework package.
+# Continuous Integration (CI) pipeline.
 #
 # Any time code is pushed to one of the main branches or a PR is opened, this pipeline should be
 # run to ensure everything still works as designed and meets our coding standards.
@@ -21,14 +21,12 @@ jobs:
 
   # Execute all PHPUnit tests.
   phpunit:
-    name: PHPUnit (PHP ${{ matrix.php-versions }}, WP ${{ matrix.wp-versions }})
+    name: PHPUnit (PHP ${{ matrix.php-versions }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        # Run on all versions of PHP supported by WordPress.
         php-versions: ['8.0', '8.1', '8.2', '8.3']
-        wp-versions: ['latest']
 
     services:
       mysql:

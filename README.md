@@ -12,6 +12,10 @@ Installation
 -----------
 It is recommended to [install the composer package](https://packagist.org/packages/renventura/wp-package-parser).
 
+```sh
+composer require renventura/wp-package-parser
+```
+
 Basic usage
 -----------
 ### Extract plugin metadata:

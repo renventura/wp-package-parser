@@ -21,7 +21,7 @@ jobs:
 
   # Static Code Analysis (PHPStan)
   static-code-analysis:
-    name: Static code analysis
+    name: PHPStan
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

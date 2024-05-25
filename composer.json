@@ -12,7 +12,8 @@
         "erusev/parsedown": "^1.7"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.6"
+        "phpunit/phpunit": "^9.6",
+        "phpstan/phpstan": "^1.11"
     },
     "autoload": {
         "psr-4": {
@@ -29,7 +30,11 @@
             "@test:all"
         ],
         "test:all": [
+            "@test:analysis",
             "@test:unit"
+        ],
+        "test:analysis": [
+            "./vendor/bin/phpstan analyse -c phpstan.neon.dist --memory-limit=768M"
         ],
         "test:unit": [
             "./vendor/bin/phpunit --testdox --verbose --color=always"

@@ -9,7 +9,7 @@ class PluginParser extends Parser {
 	/**
 	 * Header map.
 	 *
-	 * @var array
+	 * @var array<string, string>
 	 */
 	protected $headerMap = array(
 		'name'           => 'Plugin Name',
@@ -28,9 +28,9 @@ class PluginParser extends Parser {
 	 *
 	 * @param string $content Readme file content.
 	 *
-	 * @return array
+	 * @return null|array<string, string>
 	 */
-	public function parseReadme( string $content ) : array {
+	public function parseReadme( string $content ) : null|array {
 		$readmeTxtContents = trim( $content, " \t\n\r" );
 		$readme            = array(
 			'name'              => '',
@@ -149,7 +149,7 @@ class PluginParser extends Parser {
 	 *
 	 * @param string $fileContents Contents of the plugin file
 	 *
-	 * @return array|null See above for description.
+	 * @return null|array<string, string> See above for description.
 	 */
 	public function parsePlugin( string $fileContents ) : array|null {
 

@@ -7,6 +7,8 @@ class ThemeParserTest extends TestCase {
 
 	/**
      * Package not found.
+     *
+     * @return void
 	 */
 	public function test_no_info_when_package_not_found() {
 		$package = new WPPackage( 'path/wrong/test.zip' );
@@ -17,6 +19,8 @@ class ThemeParserTest extends TestCase {
 
     /**
      * Correctly parses a valid package.
+     *
+     * @return void
 	 */
     public function test_parses_valid_theme() {
         $package = new WPPackage( TESTS_DIR . '/packages/twentyseventeen.1.3.zip' );
@@ -26,6 +30,8 @@ class ThemeParserTest extends TestCase {
 
 	/**
      * getMetaData() should return correct data about the package.
+     *
+     * @return void
      */
 	public function test_getMetaData_should_return_correct_data_for_theme() {
 		$package = new WPPackage( TESTS_DIR . '/packages/twentysixteen.1.3.zip' );

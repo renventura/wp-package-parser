@@ -7,6 +7,8 @@ class PluginParserTest extends TestCase {
 
 	/**
      * Package not found.
+     *
+     * @return void
 	 */
 	public function test_no_info_when_package_not_found() {
 		$package = new WPPackage( '/path/wrong/abc.zip' );
@@ -17,6 +19,8 @@ class PluginParserTest extends TestCase {
 
 	/**
      * Correctly parses a valid plugin.
+     *
+     * @return void
 	 */
 	public function test_parses_valid_plugin() {
 		$package = new WPPackage( TESTS_DIR . '/packages/hello-dolly.1.6.zip' );
@@ -26,6 +30,8 @@ class PluginParserTest extends TestCase {
 
 	/**
      * getMetaData() should return correct data about the package.
+     *
+     * @return void
 	 */
 	public function test_getMetaData_should_return_correct_data_for_plugin() {
 		$package = new WPPackage( TESTS_DIR . '/packages/hello-dolly.1.6.zip' );

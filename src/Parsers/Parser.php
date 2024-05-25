@@ -10,7 +10,7 @@ abstract class Parser {
 	/**
 	 * Header map.
 	 *
-	 * @var array
+	 * @var array<string, string>
 	 */
 	protected $headerMap = array();
 
@@ -23,7 +23,7 @@ abstract class Parser {
 	 *
 	 * @param string $fileContents File contents. Can be safely truncated to 8kiB as that's all WP itself scans.
 	 *
-	 * @return array
+	 * @return array<string, string>
 	 */
 	protected function parseHeaders( string $fileContents ) : array {
 		$headers   = array();

@@ -9,7 +9,7 @@ class ThemeParser extends Parser {
 	/**
 	 * Header map.
 	 *
-	 * @var array
+	 * @var array<string, string>
 	 */
 	protected $headerMap = array(
 		'name'        => 'Theme Name',
@@ -30,9 +30,9 @@ class ThemeParser extends Parser {
 	 *
 	 * @param string $fileContents Contents of style.css file.
 	 *
-	 * @return array|null
+	 * @return null|array<string, string>
 	 */
-	public function parseStyle( string $fileContents ) : array|null {
+	public function parseStyle( string $fileContents ) : null|array {
 
         $headers = $this->parseHeaders( $fileContents );
 		$headers['tags'] = array_filter( array_map( 'trim', explode( ',', strip_tags( $headers['tags'] ) ) ) );

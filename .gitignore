@@ -16,6 +16,7 @@ composer.lock
 .php-cs-fixer.php
 phpcs.xml
 phpunit.xml
+phpstan.neon
 
 # Cache files.
 .php_cs.cache

@@ -11,7 +11,7 @@ class WPPackage {
 	/**
 	 * Metadata.
 	 *
-	 * @var array
+	 * @var array<string, string>
 	 */
 	protected $metadata = array();
 
@@ -57,7 +57,7 @@ class WPPackage {
 	/**
 	 * Get metadata.
 	 *
-	 * @return array
+	 * @return array<string, string>
 	 */
 	public function getMetaData() : array {
 		return $this->metadata;
@@ -150,7 +150,7 @@ class WPPackage {
 	 *
 	 * @param string $file_name File name.
 	 *
-	 * @return bool|array
+	 * @return bool|array<string, string>
 	 */
 	private function exploreFile( string $file_name ) : bool|array {
 		$data      = pathinfo( $file_name );

@@ -1,0 +1,49 @@
+# This workflow automates the release process: when a branch matching "release/vX.Y.Z" is merged
+# into "main", automatically create a new **draft** release with information about the release.
+name: Release
+
+# Only execute when a release branch has been merged into "main".
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+
+jobs:
+
+  # Automatically prepare a release following a successful merge into "main".
+  publish-release:
+    if: github.event.pull_request.merged == true
+    name: Release to Packagist
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Determine release version
+        id: parse-version
+        env:
+          # Parse the version number from a branch name based on semver.
+          # Reference and examples of matched patterns: https://regexr.com/6jfqu
+          pattern: '(?:^|\/)v?\.?\K(\d+\.\d+\.\d+(-[0-9A-Za-z-]+(?:\.\d+)?)?(\+(?:\.?[0-9A-Za-z-]+)+)?)$'
+        run: |
+          version=$(grep -oP "${{ env.pattern }}" <<< "${{ github.event.pull_request.head.ref }}")
+          echo "::set-output name=version::$version"
+          echo "Parsed version: '${version}'"
+
+      - name: Create draft release
+        id: publish
+        uses: ncipollo/release-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: "v${{ steps.parse-version.outputs.version }}"
+          commit: main
+          name: ${{ github.event.pull_request.title }}
+          body: ${{ github.event.pull_request.body }}
+          draft: true
+          prerelease: ${{ contains(steps.publish.outputs.version, '-') }}
+
+      - name: Release details
+        run: |
+          echo "Draft release created: ${{ steps.publish.outputs.html_url }}"

@@ -28,7 +28,7 @@
     },
     "scripts": {
         "fix:standards": [
-            "./vendor/bin/phpcbf ./src"
+            "./vendor/bin/phpcbf ./src ./tests"
         ],
         "test": [
             "@test:all"
@@ -42,7 +42,7 @@
             "./vendor/bin/phpstan analyse -c phpstan.neon.dist --memory-limit=768M"
         ],
         "test:standards": [
-            "./vendor/bin/phpcs ./src"
+            "./vendor/bin/phpcs ./src ./tests"
         ],
         "test:unit": [
             "./vendor/bin/phpunit --testdox --verbose --color=always"

@@ -21,4 +21,9 @@
 	<!-- Strip the file paths down to the relevant bit and only apply to .php files. -->
 	<arg name="basepath" value="./"/>
 	<arg name="extensions" value="php"/>
+
+	<!-- PHPUnit bootstap can do different things. -->
+	<rule ref="PSR1.Files.SideEffects.FoundWithSymbols">
+		<exclude-pattern>tests/bootstrap.php</exclude-pattern>
+	</rule>
 </ruleset>

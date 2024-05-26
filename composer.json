@@ -13,7 +13,8 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^9.6",
-        "phpstan/phpstan": "^1.11"
+        "phpstan/phpstan": "^1.11",
+        "squizlabs/php_codesniffer": "^3.10"
     },
     "autoload": {
         "psr-4": {
@@ -26,15 +27,22 @@
         }
     },
     "scripts": {
+        "fix:standards": [
+            "./vendor/bin/phpcbf ./src"
+        ],
         "test": [
             "@test:all"
         ],
         "test:all": [
             "@test:analysis",
+            "@test:standards",
             "@test:unit"
         ],
         "test:analysis": [
             "./vendor/bin/phpstan analyse -c phpstan.neon.dist --memory-limit=768M"
+        ],
+        "test:standards": [
+            "./vendor/bin/phpcs ./src"
         ],
         "test:unit": [
             "./vendor/bin/phpunit --testdox --verbose --color=always"
@@ -42,6 +50,8 @@
     },
     "scripts-descriptions": {
         "test:all": "Run all automated tests.",
+        "test:analysis": "Perform static code analysis.",
+        "test:standards": "Check coding standards.",
         "test:unit": "Run all of the PHPUnit test suites."
     }
 }

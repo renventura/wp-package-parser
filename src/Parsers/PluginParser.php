@@ -53,7 +53,7 @@ class PluginParser extends Parser
         if (preg_match('@===\s*(.+?)\s*===@', array_shift($lines), $matches)) {
             $readme['name'] = $matches[1];
         } else {
-            return null;
+            return [];
         }
 
         // Then there's a bunch of meta fields formatted as "Field: value"
